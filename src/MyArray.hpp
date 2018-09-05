@@ -3,25 +3,23 @@
 
 // Standard Library includes
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
 
 /**
  * \class MyArray
- * \brief An array of integers - currently of a fixed, hardcoded size (10)
+ * \brief An array of integers - currently of a fixed but user-specified size
  */
 class MyArray {
 	public:
 		/// constructor
-		MyArray()
+		MyArray(const size_t size) :
+			size_{size},
+			elems_{ std::make_unique<int[]>(size) }
 		{
-			std::cout << "MyArray default contructor" << std::endl;
-
-			// set all elements to zero
-			for (size_t i{0}; i < size_; ++i) {
-				elems_[i] = 0;
-			}
+			std::cout << "MyArray contructor" << std::endl;
 		}
 
 		/// destructor
@@ -31,7 +29,9 @@ class MyArray {
 		}
 
 		/// copy constructor
-		MyArray(const MyArray& rhs)
+		MyArray(const MyArray& rhs) :
+			size_{rhs.size_},
+			elems_{ std::make_unique<int[]>(size_) }
 		{
 			std::cout << "MyArray copy contructor" << std::endl;
 
@@ -42,14 +42,11 @@ class MyArray {
 		}
 
 		/// move constructor
-		MyArray(MyArray&& rhs)
+		MyArray(MyArray&& rhs) :
+			size_{ rhs.size_ },
+			elems_{ std::move(rhs.elems_) }
 		{
 			std::cout << "MyArray move contructor" << std::endl;
-
-			// set all elements to those of rhs
-			for (size_t i{0}; i < size_; ++i) {
-				elems_[i] = std::move(rhs.elems_[i]);
-			}
 		}
 
 		/// copy assignment operator
@@ -59,6 +56,11 @@ class MyArray {
 
 			// check for self-assignment
 			if ( &rhs != this ) {
+				if ( size_ < rhs.size_ ) {
+					elems_ = std::make_unique<int[]>(rhs.size_);
+				}
+				size_ = rhs.size_;
+
 				// set all elements to those of rhs
 				for (size_t i{0}; i < size_; ++i) {
 					elems_[i] = rhs.elems_[i];
@@ -75,10 +77,8 @@ class MyArray {
 
 			// check for self-assignment
 			if ( &rhs != this ) {
-				// set all elements to those of rhs
-				for (size_t i{0}; i < size_; ++i) {
-					elems_[i] = std::move(rhs.elems_[i]);
-				}
+				size_ = rhs.size_;
+				elems_ = std::move(rhs.elems_);
 			}
 
 			return *this;
@@ -123,27 +123,27 @@ class MyArray {
 		typedef const int* ConstIterator;
 
 		/// obtain iterator to first element
-		Iterator begin() { return elems_; }
+		Iterator begin() { return elems_.get(); }
 
 		/// obtain const iterator to first element
-		ConstIterator begin() const { return elems_; }
+		ConstIterator begin() const { return elems_.get(); }
 
 		/// obtain const iterator to first element
-		ConstIterator cbegin() const { return elems_; }
+		ConstIterator cbegin() const { return elems_.get(); }
 
 		/// obtain iterator to the one-past-the-end element
-		Iterator end() { return elems_+size_; }
+		Iterator end() { return elems_.get()+size_; }
 
 		/// obtain const iterator to the one-past-the-end element
-		ConstIterator end() const { return elems_+size_; }
+		ConstIterator end() const { return elems_.get()+size_; }
 
 		/// obtain const iterator to the one-past-the-end element
-		ConstIterator cend() const { return elems_+size_; }
+		ConstIterator cend() const { return elems_.get()+size_; }
 
 
 	private:
-		static const size_t size_ = 10;
-		int elems_[size_];
+		size_t size_;
+		std::unique_ptr<int[]> elems_;
 };
 
 #endif
