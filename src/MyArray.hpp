@@ -21,6 +21,21 @@ class MyArray {
 			}
 		}
 
+		/// Delete the copy constructor
+		MyArray(const MyArray& rhs) = delete;
+
+		/// Delete the move constructor
+		MyArray(MyArray&& rhs) = delete;
+
+		/// Delete the copy assignment operator
+		MyArray& operator=(const MyArray& rhs) = delete;
+
+		/// Delete the move assignment operator
+		MyArray& operator=(MyArray&& rhs) = delete;
+
+		/// Keep the default destructor
+		~MyArray() = default;
+
 		/// get the size
 		size_t size() const { return size_; }
 
