@@ -7,9 +7,12 @@
 // Project includes
 #include "MyArray.hpp"
 
-MyArray createArray()
+MyArray createArrayOfOnes()
 {
 	MyArray anArray;
+	for ( auto& elem : anArray ) {
+		elem = 1;
+	}
 	return anArray;
 }
 
@@ -55,15 +58,21 @@ int main()
 		std::cout << elem << std::endl;
 	}
 
-	std::cout << "Make another array from a function return:" << std::endl;
-	MyArray myThirdArray { createArray() };
+	std::cout << "Make a third array from a function return:" << std::endl;
+	MyArray myThirdArray { createArrayOfOnes() };
 	for ( const auto& elem : myThirdArray ) {
 		std::cout << elem << std::endl;
 	}
 
 	std::cout << "Assign to the first array from a function return:" << std::endl;
-	myFirstArray = createArray();
+	myFirstArray = createArrayOfOnes();
 	for ( const auto& elem : myFirstArray ) {
+		std::cout << elem << std::endl;
+	}
+
+	std::cout << "Make a fourth array by explicit move of the second:" << std::endl;
+	MyArray myFourthArray { std::move(mySecondArray) };
+	for ( const auto& elem : myFourthArray ) {
 		std::cout << elem << std::endl;
 	}
 
