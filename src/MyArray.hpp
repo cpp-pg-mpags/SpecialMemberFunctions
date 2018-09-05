@@ -8,17 +8,15 @@
 
 /**
  * \class MyArray
- * \brief An array of integers - currently of a fixed, hardcoded size (10)
+ * \brief An array of integers - currently of a fixed but user-specified size
  */
 class MyArray {
 	public:
 		/// constructor
-		MyArray()
+		MyArray(const size_t size) :
+			size_{size},
+			elems_{ std::make_unique<int[]>(size) }
 		{
-			// set all elements to zero
-			for (size_t i{0}; i < size_; ++i) {
-				elems_[i] = 0;
-			}
 		}
 
 		/// get the size
@@ -59,27 +57,27 @@ class MyArray {
 		typedef const int* ConstIterator;
 
 		/// obtain iterator to first element
-		Iterator begin() { return elems_; }
+		Iterator begin() { return elems_.get(); }
 
 		/// obtain const iterator to first element
-		ConstIterator begin() const { return elems_; }
+		ConstIterator begin() const { return elems_.get(); }
 
 		/// obtain const iterator to first element
-		ConstIterator cbegin() const { return elems_; }
+		ConstIterator cbegin() const { return elems_.get(); }
 
 		/// obtain iterator to the one-past-the-end element
-		Iterator end() { return elems_+size_; }
+		Iterator end() { return elems_.get()+size_; }
 
 		/// obtain const iterator to the one-past-the-end element
-		ConstIterator end() const { return elems_+size_; }
+		ConstIterator end() const { return elems_.get()+size_; }
 
 		/// obtain const iterator to the one-past-the-end element
-		ConstIterator cend() const { return elems_+size_; }
+		ConstIterator cend() const { return elems_.get()+size_; }
 
 
 	private:
-		static const size_t size_ = 10;
-		int elems_[size_];
+		size_t size_;
+		std::unique_ptr<int[]> elems_;
 };
 
 #endif
