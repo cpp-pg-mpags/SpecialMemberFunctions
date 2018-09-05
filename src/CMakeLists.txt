@@ -20,5 +20,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic")
 
 # - Declare the build of our main program
-add_executable(spec-mem-fun spec-mem-fun.cpp)
+add_executable(efficient-vector efficient-vector.cpp)
 
