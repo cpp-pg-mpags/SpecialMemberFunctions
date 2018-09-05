@@ -9,7 +9,7 @@
 
 MyArray createArrayOfOnes()
 {
-	MyArray anArray;
+	MyArray anArray{5};
 	for ( auto& elem : anArray ) {
 		elem = 1;
 	}
@@ -18,7 +18,7 @@ MyArray createArrayOfOnes()
 
 int main()
 {
-	MyArray myFirstArray;
+	MyArray myFirstArray{10};
 	std::cout << "Array has " << myFirstArray.size() << " elements:" << std::endl;
 	for ( const auto& elem : myFirstArray ) {
 		std::cout << elem << std::endl;
