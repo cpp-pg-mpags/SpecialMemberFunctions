@@ -2,6 +2,7 @@
 #define MYARRAY_HPP
 
 // Standard Library includes
+#include <iostream>
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -15,11 +16,74 @@ class MyArray {
 		/// constructor
 		MyArray()
 		{
+			std::cout << "MyArray default contructor" << std::endl;
+
 			// set all elements to zero
 			for (size_t i{0}; i < size_; ++i) {
 				elems_[i] = 0;
 			}
 		}
+
+		/// destructor
+		~MyArray()
+		{
+			std::cout << "MyArray destructor" << std::endl;
+		}
+
+		/// copy constructor
+		MyArray(const MyArray& rhs)
+		{
+			std::cout << "MyArray copy contructor" << std::endl;
+
+			// set all elements to those of rhs
+			for (size_t i{0}; i < size_; ++i) {
+				elems_[i] = rhs.elems_[i];
+			}
+		}
+
+		/// move constructor
+		MyArray(MyArray&& rhs)
+		{
+			std::cout << "MyArray move contructor" << std::endl;
+
+			// set all elements to those of rhs
+			for (size_t i{0}; i < size_; ++i) {
+				elems_[i] = std::move(rhs.elems_[i]);
+			}
+		}
+
+		/// copy assignment operator
+		MyArray& operator=(const MyArray& rhs)
+		{
+			std::cout << "MyArray copy assignment operator" << std::endl;
+
+			// check for self-assignment
+			if ( &rhs != this ) {
+				// set all elements to those of rhs
+				for (size_t i{0}; i < size_; ++i) {
+					elems_[i] = rhs.elems_[i];
+				}
+			}
+
+			return *this;
+		}
+
+		/// move assignment operator
+		MyArray& operator=(MyArray&& rhs)
+		{
+			std::cout << "MyArray move assignment operator" << std::endl;
+
+			// check for self-assignment
+			if ( &rhs != this ) {
+				// set all elements to those of rhs
+				for (size_t i{0}; i < size_; ++i) {
+					elems_[i] = std::move(rhs.elems_[i]);
+				}
+			}
+
+			return *this;
+		}
+
 
 		/// get the size
 		size_t size() const { return size_; }
