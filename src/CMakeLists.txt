@@ -19,6 +19,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # - Use our standard set of flags
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic")
 
-# - Declare the build of our main program
+# - Declare the build of our main programs
 add_executable(efficient-vector efficient-vector.cpp)
+add_executable(efficient-map efficient-map.cpp)
 
