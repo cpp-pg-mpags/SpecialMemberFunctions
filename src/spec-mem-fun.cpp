@@ -76,6 +76,12 @@ int main()
 		std::cout << elem << std::endl;
 	}
 
+	std::cout << "Assign to the fourth array by explicit move of the third:" << std::endl;
+	myFourthArray = std::move(myThirdArray);
+	for ( const auto& elem : myFourthArray ) {
+		std::cout << elem << std::endl;
+	}
+
 	return 0;
 }
 
