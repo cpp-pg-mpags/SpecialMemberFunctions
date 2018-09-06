@@ -16,7 +16,7 @@ class MyArray {
 		/// constructor
 		MyArray()
 		{
-			std::cout << "MyArray default contructor" << std::endl;
+			std::cout << "MyArray default constructor" << std::endl;
 
 			// set all elements to zero
 			for (size_t i{0}; i < size_; ++i) {
@@ -33,7 +33,7 @@ class MyArray {
 		/// copy constructor
 		MyArray(const MyArray& rhs)
 		{
-			std::cout << "MyArray copy contructor" << std::endl;
+			std::cout << "MyArray copy constructor" << std::endl;
 
 			// set all elements to those of rhs
 			for (size_t i{0}; i < size_; ++i) {
@@ -44,7 +44,7 @@ class MyArray {
 		/// move constructor
 		MyArray(MyArray&& rhs) noexcept
 		{
-			std::cout << "MyArray move contructor" << std::endl;
+			std::cout << "MyArray move constructor" << std::endl;
 
 			// set all elements to those of rhs
 			for (size_t i{0}; i < size_; ++i) {
