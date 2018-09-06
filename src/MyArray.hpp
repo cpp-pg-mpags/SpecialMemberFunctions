@@ -42,7 +42,7 @@ class MyArray {
 		}
 
 		/// move constructor
-		MyArray(MyArray&& rhs)
+		MyArray(MyArray&& rhs) noexcept
 		{
 			std::cout << "MyArray move contructor" << std::endl;
 
@@ -57,12 +57,9 @@ class MyArray {
 		{
 			std::cout << "MyArray copy assignment operator" << std::endl;
 
-			// check for self-assignment
-			if ( &rhs != this ) {
-				// set all elements to those of rhs
-				for (size_t i{0}; i < size_; ++i) {
-					elems_[i] = rhs.elems_[i];
-				}
+			// set all elements to those of rhs
+			for (size_t i{0}; i < size_; ++i) {
+				elems_[i] = rhs.elems_[i];
 			}
 
 			return *this;
@@ -73,12 +70,9 @@ class MyArray {
 		{
 			std::cout << "MyArray move assignment operator" << std::endl;
 
-			// check for self-assignment
-			if ( &rhs != this ) {
-				// set all elements to those of rhs
-				for (size_t i{0}; i < size_; ++i) {
-					elems_[i] = std::move(rhs.elems_[i]);
-				}
+			// set all elements to those of rhs
+			for (size_t i{0}; i < size_; ++i) {
+				elems_[i] = std::move(rhs.elems_[i]);
 			}
 
 			return *this;
