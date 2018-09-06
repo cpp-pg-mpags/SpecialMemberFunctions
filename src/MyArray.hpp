@@ -2,6 +2,7 @@
 #define MYARRAY_HPP
 
 // Standard Library includes
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -15,11 +16,11 @@
 class MyArray {
 	public:
 		/// constructor
-		MyArray(const size_t size) :
-			size_{size},
-			elems_{ std::make_unique<int[]>(size) }
+		MyArray(const size_t size)
+			: size_{size}
+			, elems_{ std::make_unique<int[]>(size) }
 		{
-			std::cout << "MyArray contructor" << std::endl;
+			std::cout << "MyArray constructor" << std::endl;
 		}
 
 		/// destructor
@@ -29,24 +30,25 @@ class MyArray {
 		}
 
 		/// copy constructor
-		MyArray(const MyArray& rhs) :
-			size_{rhs.size_},
-			elems_{ std::make_unique<int[]>(size_) }
+		MyArray(const MyArray& rhs)
+			: size_{rhs.size_}
+			, elems_{ std::make_unique<int[]>(size_) }
 		{
-			std::cout << "MyArray copy contructor" << std::endl;
+			std::cout << "MyArray copy constructor" << std::endl;
 
 			// set all elements to those of rhs
-			for (size_t i{0}; i < size_; ++i) {
-				elems_[i] = rhs.elems_[i];
-			}
+			std::copy( rhs.begin(), rhs.end(), this->begin() );
 		}
 
 		/// move constructor
-		MyArray(MyArray&& rhs) :
-			size_{ rhs.size_ },
-			elems_{ std::move(rhs.elems_) }
+		MyArray(MyArray&& rhs) noexcept
+			: size_{ rhs.size_ }
+			, elems_{ std::move(rhs.elems_) }
 		{
-			std::cout << "MyArray move contructor" << std::endl;
+			std::cout << "MyArray move constructor" << std::endl;
+
+			// set the size of the rhs to be consistent with it no longer having assigned storage
+			rhs.size_ = 0;
 		}
 
 		/// copy assignment operator
@@ -54,38 +56,65 @@ class MyArray {
 		{
 			std::cout << "MyArray copy assignment operator" << std::endl;
 
-			// check for self-assignment
-			if ( &rhs != this ) {
-				if ( size_ < rhs.size_ ) {
-					elems_ = std::make_unique<int[]>(rhs.size_);
-				}
-				size_ = rhs.size_;
-
-				// set all elements to those of rhs
-				for (size_t i{0}; i < size_; ++i) {
-					elems_[i] = rhs.elems_[i];
-				}
-			}
+			MyArray tmp{ rhs };
+			tmp.swap(*this);
 
 			return *this;
 		}
 
 		/// move assignment operator
-		MyArray& operator=(MyArray&& rhs)
+		MyArray& operator=(MyArray&& rhs) noexcept
 		{
 			std::cout << "MyArray move assignment operator" << std::endl;
 
-			// check for self-assignment
-			if ( &rhs != this ) {
-				size_ = rhs.size_;
-				elems_ = std::move(rhs.elems_);
-			}
+			MyArray tmp{ std::move(rhs) };
+			tmp.swap(*this);
 
 			return *this;
 		}
 
+		/*
+		Note how the two assignment operators are implemented in terms
+		of their corresponding constructors and a swap function.
 
-		/// get the size
+		If you've seen copy assignment operators before, you may have
+		seen them contain checks for self-assignment.  What has been
+		done here, however, is to implement the operations in such a
+		way that they are safe (albeit slower than checking and doing
+		nothing) in such a scenario, i.e. the object ends up
+		maintaining the same state.  This allows us to avoid the check
+		entirely, which makes the operations faster in the far more
+		probable situation where the objects involved are different.
+
+		Note also how the code above for the copy and move assignment
+		operators are essentially the same.
+		We could even replace them with a single function, which is
+		easier to maintain and can even be more efficient in certain
+		situations - see the commented-out function below.
+		The only caveat to that is the noexcept specification, which
+		cannot be applied to this joint function.
+		*/
+
+		/*
+		/// copy/move assignment operator
+		MyArray& operator=(MyArray rhs)
+		{
+			std::cout << "MyArray copy/move assignment operator" << std::endl;
+
+			rhs.swap(*this);
+
+			return *this;
+		}
+		*/
+
+		/// swap contents of two arrays
+		void swap(MyArray& rhs)
+		{
+			std::swap(elems_, rhs.elems_);
+			std::swap(size_, rhs.size_);
+		}
+
+		/// get the size of the array
 		size_t size() const { return size_; }
 
 		/// access elements (not bounds checked)
