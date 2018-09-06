@@ -97,9 +97,9 @@ void whatOperationsHappenDuringGrowthWithReserveAndEmplaceBack()
 int main()
 {
 	howDoesAVectorGrow();
-	whatOperationsHappenDuringDefaultGrowth();
-	whatOperationsHappenDuringGrowthWithReserve();
-	whatOperationsHappenDuringGrowthWithReserveAndEmplaceBack();
+	//whatOperationsHappenDuringDefaultGrowth();
+	//whatOperationsHappenDuringGrowthWithReserve();
+	//whatOperationsHappenDuringGrowthWithReserveAndEmplaceBack();
 
 	return 0;
 }

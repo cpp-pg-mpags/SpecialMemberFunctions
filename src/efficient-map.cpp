@@ -17,22 +17,22 @@ void whatOperationsHappenDuringSubscriptInsertion()
 
 	int i{0};
 
-	std::cout << "Add an element from an already constructed object" << std::endl;
+	std::cout << "\nAdd an element from an already constructed object" << std::endl;
 	MyClassB a{i,i};
 	mymap[i] = a;
 
 	++i;
 
-	std::cout << "Add an element from a temporary object" << std::endl;
+	std::cout << "\nAdd an element from a temporary object" << std::endl;
 	mymap[i] = MyClassB{i,i};
 
 	++i;
 
-	std::cout << "Add an element by explicitly moving an aleady constructed object" << std::endl;
+	std::cout << "\nAdd an element by explicitly moving an aleady constructed object" << std::endl;
 	MyClassB b{i,i};
 	mymap[i] = std::move(b);
 
-	std::cout << "Finished" << std::endl;
+	std::cout << "\nFinished" << std::endl;
 }
 
 void whatOperationsHappenDuringInsert()
@@ -47,22 +47,22 @@ void whatOperationsHappenDuringInsert()
 
 	int i{0};
 
-	std::cout << "Add an element from an already constructed object" << std::endl;
+	std::cout << "\nAdd an element from an already constructed object" << std::endl;
 	MyClassB a{i,i};
 	mymap.insert( std::make_pair(i,a) );
 
 	++i;
 
-	std::cout << "Add an element from a temporary object" << std::endl;
+	std::cout << "\nAdd an element from a temporary object" << std::endl;
 	mymap.insert( std::make_pair(i,MyClassB{i,i}) );
 
 	++i;
 
-	std::cout << "Add an element by explicitly moving an aleady constructed object" << std::endl;
+	std::cout << "\nAdd an element by explicitly moving an aleady constructed object" << std::endl;
 	MyClassB b{i,i};
 	mymap.insert( std::make_pair(i,std::move(b)) );
 
-	std::cout << "Finished" << std::endl;
+	std::cout << "\nFinished" << std::endl;
 }
 
 void whatOperationsHappenDuringEmplace()
@@ -77,35 +77,35 @@ void whatOperationsHappenDuringEmplace()
 
 	int i{0};
 
-	std::cout << "Add an element from an already constructed object" << std::endl;
+	std::cout << "\nAdd an element from an already constructed object" << std::endl;
 	MyClassB a{i,i};
 	mymap.emplace( i, a );
 
 	++i;
 
-	std::cout << "Add an element from a temporary object" << std::endl;
+	std::cout << "\nAdd an element from a temporary object" << std::endl;
 	mymap.emplace( i, MyClassB{i,i} );
 
 	++i;
 
-	std::cout << "Add an element by explicitly moving an aleady constructed object" << std::endl;
+	std::cout << "\nAdd an element by explicitly moving an aleady constructed object" << std::endl;
 	MyClassB b{i,i};
 	mymap.emplace( i, std::move(b) );
 
 	++i;
 
-	std::cout << "Add an element by using piecewise construction" << std::endl;
+	std::cout << "\nAdd an element by using piecewise construction" << std::endl;
 	mymap.emplace( std::piecewise_construct, std::forward_as_tuple(i), std::forward_as_tuple(i,i) );
 
-	std::cout << "Finished" << std::endl;
+	std::cout << "\nFinished" << std::endl;
 }
 
 
 int main()
 {
 	whatOperationsHappenDuringSubscriptInsertion();
-	whatOperationsHappenDuringInsert();
-	whatOperationsHappenDuringEmplace();
+	//whatOperationsHappenDuringInsert();
+	//whatOperationsHappenDuringEmplace();
 
 	return 0;
 }
