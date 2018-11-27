@@ -18,7 +18,7 @@ class MyArray {
 		/// constructor
 		MyArray(const size_t size)
 			: size_{size}
-			, elems_{ std::make_unique<int[]>(size) }
+			, elems_{ std::make_unique<int[]>(size_) }
 		{
 			std::cout << "MyArray constructor" << std::endl;
 		}
@@ -92,7 +92,13 @@ class MyArray {
 		easier to maintain and can even be more efficient in certain
 		situations - see the commented-out function below.
 		The only caveat to that is the noexcept specification, which
-		cannot be applied to this joint function.
+		cannot be applied to this joint function since the copy
+		constructor can throw (in this case in make_unique).
+		The noexcept specification for move operations is important if,
+		for example, you are going to place your type in standard
+		library containers since they can only use move operations when
+		performing internal reorganisations if those operations are
+		declared noexcept.
 		*/
 
 		/*
@@ -108,7 +114,7 @@ class MyArray {
 		*/
 
 		/// swap contents of two arrays
-		void swap(MyArray& rhs)
+		void swap(MyArray& rhs) noexcept
 		{
 			std::swap(elems_, rhs.elems_);
 			std::swap(size_, rhs.size_);
