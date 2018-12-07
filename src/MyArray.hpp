@@ -2,6 +2,7 @@
 #define MYARRAY_HPP
 
 // Standard Library includes
+#include <memory>
 #include <stdexcept>
 #include <sstream>
 #include <string>
