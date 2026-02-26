@@ -2,7 +2,7 @@
 # Comments in a CMake Script are lines begining with a '#'
 
 # - Set CMake requirements then declare project
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.13)
 project(SpecialMemberFunctions VERSION 0.1.0)
 
 # - When Makefiles are generated, output all command lines by default
@@ -12,7 +12,7 @@ project(SpecialMemberFunctions VERSION 0.1.0)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # - Don't allow C++ Compiler Vendor Extensions
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

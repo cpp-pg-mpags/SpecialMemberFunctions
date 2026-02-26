@@ -2,6 +2,9 @@
 ARG VARIANT="bookworm"
 FROM mcr.microsoft.com/devcontainers/cpp:1-${VARIANT}
 
-# [Optional] Uncomment this section to install additional packages.
+# Install additional packages
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-     && apt-get -y install --no-install-recommends doxygen
+     && apt-get -y install --no-install-recommends doxygen graphviz tree clang-format
+
+# Ensure .ssh directory is owned by vscode user
+RUN mkdir -p ~vscode/.ssh && chown vscode ~vscode/.ssh
